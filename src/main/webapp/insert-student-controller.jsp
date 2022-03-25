@@ -12,11 +12,10 @@
     StudentService studentService = new StudentService();
     // create student object
     Student student = new Student(name, surname, email);
-    // save customer to the database;
 
     Message msg;
     try {
-        String value = studentService.create(student);
+        String value = studentService.createStudent(student);
         if (value.contains("Error") || value.contains("error")) msg = new Message("error", value);
         else msg = new Message("success", value);
     } catch (Exception e) {

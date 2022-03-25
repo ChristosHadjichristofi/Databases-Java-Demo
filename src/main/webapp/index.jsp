@@ -115,8 +115,7 @@
             let messages = document.getElementById("message").value;
             if (messages !== "") messages = JSON.parse("[" + messages.slice(0, -1) + "]");
             else messages = [];
-            console.log(messages)
-            console.log(messages[0].type, typeof messages[0].type)
+
             messages
             .forEach(({
                   type,
