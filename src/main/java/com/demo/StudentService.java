@@ -22,6 +22,7 @@ public class StudentService {
 
             while (rs.next()) {
                 Student student = new Student(
+                    rs.getInt("students.id"),
                     rs.getString("students.name"),
                     rs.getString("students.surname"),
                     rs.getString("students.email")
@@ -38,7 +39,7 @@ public class StudentService {
         }
     }
 
-    public String create(Student student) throws Exception {
+    public String createStudent(Student student) throws Exception {
         String message = "";
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
@@ -68,6 +69,40 @@ public class StudentService {
                 con.close();
             if (message.equals("")) message = "Student successfully inserted!";
 
+        }
+
+        return message;
+    }
+
+    public String updateStudent(Student student) throws Exception {
+        Connection con = null;
+        String message = "";
+
+        String sql = "UPDATE students SET name=?, surname=?, email=? WHERE id=?;";
+
+
+        ConnectionDB db = new ConnectionDB();
+
+        try {
+            con = db.getConnection();
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setString(1, student.getName());
+            stmt.setString(2, student.getSurname());
+            stmt.setString(3, student.getEmail());
+            stmt.setInt(4, student.getId());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+
+        } catch (Exception e) {
+            message = "Error while updating student: " + e.getMessage();
+
+        } finally {
+            if (con != null) con.close();
+            if (message.equals("")) message = "Student successfully updated!";
         }
 
         return message;
