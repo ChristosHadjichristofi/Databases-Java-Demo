@@ -2,6 +2,7 @@ package com.demo;
 
 public class Student {
 
+    private Integer id;
     private String name;
     private String surname;
     private String email;
@@ -12,6 +13,14 @@ public class Student {
         this.email = email;
     }
 
+    public Student(Integer id, String name, String surname, String email) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
+    public Integer getId() { return this.id; }
     public String getName() { return this.name; }
     public String getSurname() { return this.surname; }
     public String getEmail() { return this.email; }
