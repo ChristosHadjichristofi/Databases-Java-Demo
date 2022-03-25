@@ -7,17 +7,23 @@
 <%
     ArrayList<Message> messages;
 
+    // get any incoming messages from session attribute named messages
+    // if nothing exists then messages is an empty arraylist
     if ((ArrayList<Message>) session.getAttribute("messages") == null) messages = new ArrayList<>();
+        // else get that value
     else messages = (ArrayList<Message>) session.getAttribute("messages");
 
     String msgField = "";
 
+    // create the object in the form of a stringified json
     for (Message m : messages) {
         msgField += "{\"type\":\"" + m.type + "\",\"value\":\"" + m.value.replaceAll("['\"]+", "") + "\"},";
     }
 
+    // empty session messages
     session.setAttribute("messages", new ArrayList<Message>());
 
+    // retrieve best dribbler/shooter details from database
     Pair<String, Integer> bestDribblerDetails = null, bestShooterDetailes = null;
     LayoutService layoutService = new LayoutService();
     try {
@@ -118,9 +124,9 @@
 
             messages
             .forEach(({
-                  type,
-                  value
-              }) => {
+              type,
+              value
+            }) => {
                 switch (type) {
                     case "error":
                         toastr.error(value)

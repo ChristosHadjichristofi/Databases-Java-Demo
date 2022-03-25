@@ -10,18 +10,23 @@
 <%
     ArrayList<Message> messages;
 
+    // get any incoming messages from session attribute named messages
+    // if nothing exists then messages is an empty arraylist
     if ((ArrayList<Message>) session.getAttribute("messages") == null) messages = new ArrayList<>();
+        // else get that value
     else messages = (ArrayList<Message>) session.getAttribute("messages");
 
     String msgField = "";
 
+    // create the object in the form of a stringified json
     for (Message m : messages) {
         msgField += "{\"type\":\"" + m.type + "\",\"value\":\"" + m.value.replaceAll("['\"]+", "") + "\"},";
     }
-    System.out.println(msgField);
 
+    // empty session messages
     session.setAttribute("messages", new ArrayList<Message>());
 
+    // get all students from database
     StudentService studentService = new StudentService();
     List<Student> students = null;
     try {
@@ -157,25 +162,25 @@
             else messages = [];
 
             messages
-                .forEach(({
-                  type,
-                  value
-                }) => {
-                switch (type) {
-                    case "error":
-                        toastr.error(value)
+            .forEach(({
+                type,
+                value
+            }) => {
+            switch (type) {
+                case "error":
+                    toastr.error(value)
+                    break;
+                case "success":
+                    toastr.success(value)
+                    break;
+                case "warning":
+                    toastr.warning(value)
+                    break;
+                default:
+                    toastr.info(value)
                         break;
-                    case "success":
-                        toastr.success(value)
-                        break;
-                    case "warning":
-                        toastr.warning(value)
-                        break;
-                    default:
-                        toastr.info(value)
-                            break;
-                    }
-                });
+                }
+            });
         })
     </script>
 
